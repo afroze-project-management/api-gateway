@@ -1,0 +1,92 @@
+server:
+  port: ${API_GATEWAY_PORT:8012}
+
+spring:
+  application:
+    name: pm-api-gateway
+
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: '*'
+            allowedHeaders: '*'
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+      discovery:
+        locator:
+          lower-case-service-id: true
+          enabled: true
+      routes:
+        - id: company
+          uri: lb://pm-company-ws
+          predicates:
+            - Path=/company
+          filters:
+            - AuthorizationHeaderFilter
+
+        - id: company-project
+          uri: lb://pm-project-ws
+          predicates:
+            - Path=/company/*/projects/**
+          filters:
+            - AuthorizationHeaderFilter
+
+        - id: company-endpoints
+          uri: lb://pm-company-ws
+          predicates:
+            - Path=/company/**
+          filters:
+            - AuthorizationHeaderFilter
+
+        - id: project
+          uri: lb://pm-project-ws
+          predicates:
+            - Path=/project
+          filters:
+            - AuthorizationHeaderFilter
+        - id: company-endpoints
+          uri: lb://pm-project-ws
+          predicates:
+            - Path=/project/**
+          filters:
+            - AuthorizationHeaderFilter
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://afrozeprojectmanagement.us.auth0.com/
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+management:
+  endpoint:
+    health:
+      show-details: always
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: beans,health,httptrace,info,metrics,circuitbreakers,circuitbreakerevents
+
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+        security: DEBUG
+
+info:
+  application:
+    name: ${spring.application.name}
