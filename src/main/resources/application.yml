@@ -50,7 +50,7 @@ spring:
             - Path=/project
           filters:
             - AuthorizationHeaderFilter
-        - id: company-endpoints
+        - id: project-endpoints
           uri: lb://pm-project-ws
           predicates:
             - Path=/project/**
