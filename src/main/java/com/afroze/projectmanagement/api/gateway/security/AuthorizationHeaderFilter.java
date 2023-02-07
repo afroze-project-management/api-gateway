@@ -79,5 +79,7 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
         return response.setComplete();
     }
 
-    public static class Config {}
+    @SuppressWarnings("java:S2094")
+    public static class Config {
+    }
 }
