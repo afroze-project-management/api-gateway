@@ -32,3 +32,4 @@ build/
 .vscode/
 /.gradle/
 /out/production/resources/application.yml
+/out/
