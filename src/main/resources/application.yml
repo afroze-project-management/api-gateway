@@ -61,6 +61,8 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: https://afrozeprojectmanagement.us.auth0.com/
+  main:
+    banner-mode: off
 
 eureka:
   client:
@@ -85,10 +87,11 @@ management:
 logging:
   level:
     org:
-      springframework:
-        web: DEBUG
-        security: DEBUG
-
+      springframework: WARN
+    com:
+      netflix: WARN
+  file:
+    name: logs\api-gateway.log
 info:
   application:
     name: ${spring.application.name}
