@@ -1,5 +1,5 @@
 server:
-  port: ${API_GATEWAY_PORT:8012}
+  port: ${API_GATEWAY_PORT}
 
 spring:
   application:
@@ -60,18 +60,18 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: https://afrozeprojectmanagement.us.auth0.com/
+          issuer-uri: ${ISSUER_URI}
   main:
     banner-mode: off
 
 eureka:
   client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
+    serviceUrl:
+      defaultZone: ${DISCOVERY_SERVER_ZONE}
     registry-fetch-interval-seconds: 5
   instance:
-    hostname: localhost
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    #hostname: localhost
+    #instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
     lease-expiration-duration-in-seconds: 10
 
 management:
@@ -87,11 +87,12 @@ management:
 logging:
   level:
     org:
-      springframework: WARN
+      springframework:
+        beans: WARN
     com:
-      netflix: WARN
+      netflix: DEBUG
   file:
-    name: logs\api-gateway.log
+    name: logs\api-dev-gateway.log
 info:
   application:
     name: ${spring.application.name}
