@@ -28,7 +28,7 @@
         },
         {
           "name": "DISCOVERY_SERVER_ZONE",
-          "value": "http://localhost:8761/eureka"
+          "value": "http://discovery-server:8761/eureka"
         },
         {
           "name": "API_GATEWAY_PORT",
